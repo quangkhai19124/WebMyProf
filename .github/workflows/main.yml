@@ -6,6 +6,9 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: write
+
 concurrency:
   group: cicd-${{ github.ref }}
   cancel-in-progress: true
