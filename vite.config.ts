@@ -5,6 +5,7 @@ import { createServer } from "./server";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
+  base: mode === "production" ? "/WebMyProf/" : "/", // 👈 Quan trọng cho GitHub Pages
   server: {
     host: "::",
     port: 8080,
@@ -28,7 +29,7 @@ export default defineConfig(({ mode }) => ({
 function expressPlugin(): Plugin {
   return {
     name: "express-plugin",
-    apply: "serve", // Only apply during development (serve mode)
+    apply: "serve", // chỉ chạy ở dev
     configureServer(server) {
       const app = createServer();
 
