@@ -41,11 +41,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dist
-          path: |
-            dist/
-            netlify/functions/**
+          path: dist/
 
-  deploy-netlify:
+  deploy-gh-pages:
     needs: ci
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
@@ -53,29 +51,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
         with:
-          node-version: 20
-          cache: pnpm
+          name: dist
+          path: dist
 
-      - name: Install dependencies
-        run: pnpm install --no-frozen-lockfile
-
-      - name: Build client (Netlify uses dist/spa)
-        run: pnpm build:client
-
-      - name: Install Netlify CLI
-        run: npm install -g netlify-cli
-
-      - name: Deploy to Netlify
-        run: netlify deploy --site $NETLIFY_SITE_ID --dir=dist/spa --functions=netlify/functions --prod
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-
-
-
+      - name: 🚀 Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist    # thư mục build ra (ví dụ React/Vite là dist)
+          publish_branch: gh-pages
+          force_orphan: true
