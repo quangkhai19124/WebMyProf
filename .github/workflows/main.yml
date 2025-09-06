@@ -45,35 +45,35 @@ jobs:
             dist/
             netlify/functions/**
 
-    deploy-netlify:
-      needs: ci
-      if: github.ref == 'refs/heads/main'
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v4
+  deploy-netlify:
+    needs: ci
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-        - name: Setup Node
-          uses: actions/setup-node@v4
-          with:
-            node-version: 20
-            cache: pnpm
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
 
-        - name: Setup pnpm
-          uses: pnpm/action-setup@v4
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
 
-        - name: Install dependencies
-          run: pnpm install --no-frozen-lockfile
+      - name: Install dependencies
+        run: pnpm install --no-frozen-lockfile
 
-        - name: Build client (Netlify uses dist/spa)
-          run: pnpm build:client
+      - name: Build client (Netlify uses dist/spa)
+        run: pnpm build:client
 
-        - name: Install Netlify CLI
-          run: npm install -g netlify-cli
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
 
-        - name: Deploy to Netlify
-          run: netlify deploy --dir=dist/spa --functions=netlify/functions --prod
-          env:
-            NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-            NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      - name: Deploy to Netlify
+        run: netlify deploy --dir=dist/spa --functions=netlify/functions --prod
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
