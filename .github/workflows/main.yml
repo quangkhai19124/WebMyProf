@@ -64,6 +64,6 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist    # thư mục build ra (ví dụ React/Vite là dist)
+          publish_dir: ./dist/spa    # thư mục build ra (ví dụ React/Vite là dist)
           publish_branch: gh-pages
           force_orphan: true
