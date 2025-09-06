@@ -68,7 +68,7 @@ jobs:
           run: pnpm build:client
 
         - name: Deploy to Netlify
-          uses: netlify/actions/cli@v4
+          uses: netlify/actions/cli@v1
           with:
             args: deploy --dir=dist/spa --functions=netlify/functions --prod
           env:
