@@ -10,7 +10,7 @@
       "dist/server/**/*.js"
     ]
   },
-  "homepage":"https://qkhai19124.github.io/WebProf/",
+  "homepage":"https://quangkhai19124.github.io/WebMyProf/",
   "scripts": {
     "dev": "vite",
     "build": "npm run build:client && npm run build:server",
